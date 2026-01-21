@@ -18,5 +18,3 @@ Proyecto "T-Shaped" que integra ingeniería de hardware, inteligencia artificial
 - `src/`: Lógica principal, hardware e IA.
 - `notebooks/`: Prototipado y experimentación.
 - `data_raw/`: Logs de partidas y telemetría.
-
-XD
