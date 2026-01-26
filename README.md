@@ -25,7 +25,10 @@ La **idea principal** del proyecto es crear un tablero físico que mueva las pie
 - [x] Fase 0: Familiarización con librería `chess y lógica de IA (StockFish).
 - [x] Fase 1: Simulación de partidas y tranformación de movimientos a coordenadas del tablero. 
 - [x] Fase 2: Integración Hardware.
-- [ ] Fase 3: Sistema CoreXY
+- [ ] Fase 3: Control de Precisión (Motores paso a paso).
+- [ ] Fase 4: Montaje Mecánico CoreXY.
+- [ ] Fase 5: Integración del ElectroImán.
+- [ ] Fase 6: Capa de Datos y Telemetría.
 
 ## FASE 1: Lógica de IA y Planificación de Movimientos
 
