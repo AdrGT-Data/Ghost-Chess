@@ -26,7 +26,18 @@ La **idea principal** del proyecto es crear un tablero físico que mueva las pie
 - [x] Fase 1: Simulación de partidas y tranformación de movimientos a coordenadas del tablero. 
 - [x] Fase 2: Integración Hardware.
 
-## FASE 1:
+## FASE 1: Lógica de IA y Planificación de Movimientos
+
+En esta etapa se desarrolló el "cerebro" del sistema, permitiendo que la lógica del juego se traduzca en coordenadas físicas precisas para el futuro sistema mecánico.
+
+### Hitos Técnicos:
+* **Integración de Motor de IA:** Implementación de **Stockfish 16** mediante la librería `python-chess` para el análisis de posiciones y toma de decisiones en tiempo real.
+* **Sistema de Coordenadas Físicas:** Desarrollo de un traductor de notación algebraica (ej. `e2e4`) a milímetros reales. El sistema está optimizado para un tablero de **400x400 mm** con casillas de **50 mm**.
+* **Algoritmo de Evasión de Colisiones (Pathfinding):** Implementación de una lógica de rutas que evita el choque entre piezas físicas. El imán se desplaza por los "pasillos" divisorios de las casillas, garantizando la integridad del juego.
+* **Optimización de Seguridad:** Se ha definido un margen de seguridad basado en el diámetro de las piezas (**24 mm**) frente al tamaño de la casilla (**50 mm**), minimizando errores por fricción o interferencia magnética.
+
+### Resultados:
+Se ha logrado simular partidas completas en el terminal donde el sistema no solo decide la mejor jugada, sino que genera una lista de puntos $(x, y)$ que el hardware deberá recorrer.
 
 
 ## FASE 2: INTEGRACIÓN HARDWARE
