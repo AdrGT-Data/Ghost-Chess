@@ -25,6 +25,7 @@ La **idea principal** del proyecto es crear un tablero físico que mueva las pie
 - [x] Fase 0: Familiarización con librería `chess y lógica de IA (StockFish).
 - [x] Fase 1: Simulación de partidas y tranformación de movimientos a coordenadas del tablero. 
 - [x] Fase 2: Integración Hardware.
+- [ ] Fase 3: Sistema CoreXY
 
 ## FASE 1: Lógica de IA y Planificación de Movimientos
 
@@ -38,7 +39,7 @@ En esta etapa se desarrolló el "cerebro" del sistema, permitiendo que la lógic
 
 ### Resultados:
 Se ha logrado simular partidas completas en el terminal donde el sistema no solo decide la mejor jugada, sino que genera una lista de puntos $(x, y)$ que el hardware deberá recorrer.
-## FASE 2: INTEGRACIÓN HARDWARE
+## FASE 2: Integración Hardware
 
 Una vez tenemos el código que nos da las coordenadas del tablero y los pasos para llegar a ellas, necesitamos una conexión que permita integrar la lógica de python con el hardware de Arduino.
 
