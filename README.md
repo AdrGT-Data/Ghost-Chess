@@ -62,16 +62,16 @@ Para lograr este hito he usado la comunicación bidireccional entre el sistema o
 * **Comunicación:** Protocolo Serial a 9600 Baudios vía `pyserial`.
 * **Hardware:** Arduino R3, Driver L298N, Motores DC, diodo LED, portapilas(18650)
 
-### Nota Técnica de la Fase 2:
+Durante la implementación del sistema de agarre, se realizaron pruebas de estrés con el electroimán de 24V, obteniendo las siguientes conclusiones técnicas:
 
-Se han realizado pruebas con el **electroimán** que será usado en el proyecto. Inicialmente se ha propuesto un modelo usando un módulo Relé que estuviera normalmente abierto (NO) y sólo cuando recibiera la orden, activar el imán, pero la caída de tensión producida por el imán al intentar activarse reseteaba Arduino como método de seguridad.
-
-Como solución se ha optado por el modulo **L298N** que permite que el "golpe" eléctrico que da el imán al encenderse sea absorbido por el propio chip del driver, protegiendo a Arduino. 
-
-Este método ha resultado efectivo y de utilidad para hacer que el imán se activase y desactivase cuando nosotros desearamos (0 ó 1 en consola). Pero nos ha surgido un inconveniente que no esperabamos.
-
-En nuestro prototipo ibamos a usar un electroimán de 24V usando únicamente **4 pilas de 3.7V puestas** en serie (16,8V totalmente cargadas). La teoría era que, aunque el imán no pudiera usar toda su potencia, sí podría tener el suficiente magnetismo para mover unas piezas de plástico. Sin embargo, durante las pruebas de carga, se determinó que la alimentación resulta insuficiente para nuestro electroimán de 24V a través de la superficie del tablero. 
-
-**Análisis de Eficiencia Energética** : La **potencia** del imán es directamente proporcional al cuadrado del voltaje (*P = V²/R*) por lo que con unos calculos rápidos podemos saber que con nuestro voltaje actual, el imán solo usa el 36% de su potencia máxima.
+1. **Iteración del Control de Potencia**: Inicialmente se planteó el uso de un módulo **Relé** (Normalmente Abierto). Sin embargo, la carga inductiva del imán generaba caídas de tensión que provocaban el reinicio del microcontrolador Arduino por protección.
+ 
+2. **Transición al Driver L298N**: Se optó por sustituir el relé por un módulo **L298N**. Esta configuración permite que los diodos de protección internos del driver absorban los picos de tensión al conmutar la carga, garantizando la estabilidad del sistema lógico y permitiendo el control mediante comandos seriales (`1` / `0`).
+   
+3. **Análisis de Eficiencia Energética**: Se detectó una deficiencia en la fuerza de atracción al alimentar el sistema con un pack de celdas Li-ion en serie (~14.8V - 16.8V).
+   - **Fundamento Físico**: Considerando que la potencia disipada es proporcional al cuadrado del voltaje ($P = V^2 / R$), el funcionamiento a ~15V implica que el dispositivo opera apenas al **36-40% de su capacidad**.
+   - **Resultado**: La densidad del campo magnético resultante es insuficiente para atravesar el tablero y desplazar las piezas con fiabilidad.
 
 **Solución Prevista**: Implementación de una fuente de alimentación dedicada de 24V y optimización de la base de las piezas para maximizar el flujo magnético.
+
+(Imagenes del circuito en la carpeta `docs`)
