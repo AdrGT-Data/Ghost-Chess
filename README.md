@@ -62,3 +62,16 @@ Para lograr este hito he usado la comunicación bidireccional entre el sistema o
 * **Comunicación:** Protocolo Serial a 9600 Baudios vía `pyserial`.
 * **Hardware:** Arduino R3, Driver L298N, Motores DC, diodo LED, portapilas(18650)
 
+### Nota Técnica de la Fase 2:
+
+Se han realizado pruebas con el **electroimán** que será usado en el proyecto. Inicialmente se ha propuesto un modelo usando un módulo Relé que estuviera normalmente abierto (NO) y sólo cuando recibiera la orden, activar el imán, pero la caída de tensión producida por el imán al intentar activarse reseteaba Arduino como método de seguridad.
+
+Como solución se ha optado por el modulo **L298N** que permite que el "golpe" eléctrico que da el imán al encenderse sea absorbido por el propio chip del driver, protegiendo a Arduino. 
+
+Este método ha resultado efectivo y de utilidad para hacer que el imán se activase y desactivase cuando nosotros desearamos (0 ó 1 en consola). Pero nos ha surgido un inconveniente que no esperabamos.
+
+En nuestro prototipo ibamos a usar un electroimán de 24V usando únicamente **4 pilas de 3.7V puestas** en serie (16,8V totalmente cargadas). La teoría era que, aunque el imán no pudiera usar toda su potencia, sí podría tener el suficiente magnetismo para mover unas piezas de plástico. Sin embargo, durante las pruebas de carga, se determinó que la alimentación resulta insuficiente para nuestro electroimán de 24V a través de la superficie del tablero. 
+
+**Análisis de Eficiencia Energética** : La **potencia** del imán es directamente proporcional al cuadrado del voltaje (*P = V²/R*) por lo que con unos calculos rápidos podemos saber que con nuestro voltaje actual, el imán solo usa el 36% de su potencia máxima.
+
+**Solución Prevista**: Implementación de una fuente de alimentación dedicada de 24V y optimización de la base de las piezas para maximizar el flujo magnético.
