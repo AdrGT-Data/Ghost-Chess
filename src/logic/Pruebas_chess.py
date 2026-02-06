@@ -1,1 +1,3 @@
 import chess
+
+board

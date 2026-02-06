@@ -118,7 +118,7 @@ class GhostChessEngine:
 
 
 
-"""
+
 
 if __name__ == "__main__":
     # Prueba de concepto
@@ -150,8 +150,9 @@ if __name__ == "__main__":
 
     game.close()
 
-"""
 
+
+"""
 if __name__ == "__main__":
     game = GhostChessEngine()
     
@@ -166,3 +167,5 @@ if __name__ == "__main__":
     print(f"\nRuta Caballo (g1f3): {path_knight}")
     
     game.close()
+
+"""
