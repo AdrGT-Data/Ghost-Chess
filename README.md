@@ -75,4 +75,3 @@ Durante la implementación del sistema de agarre, se realizaron pruebas de estr�
 **Solución Prevista**: Implementación de una fuente de alimentación dedicada de 24V y optimización de la base de las piezas para maximizar el flujo magnético.
 
 (Imagenes del circuito en la carpeta `docs`)
- jiji
