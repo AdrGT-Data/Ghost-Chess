@@ -93,3 +93,15 @@ En esta etapa se ha realizado un "refactor" completo del sistema para pasar de u
 - [x] Migración a entorno `uv`.
 - [x] Generador de G-Code para movimientos rectos y por costuras.
 - [x] Protocolo de comunicación Serial con espera de confirmación.
+
+------------------------------------------------------------
+¿Qué vamos a hacer en la próxima sesión?
+La próxima sesión será el "Día de la Integración Eléctrica". El objetivo será montar el "sistema nervioso" del tablero:
+
+Pincharemos el Arduino Nano en la CNC Shield (si es compatible) o haremos el cableado.
+
+Conectaremos los NEMA17 a los drivers (espero que vinieran con la shield).
+
+Cargaremos un código de prueba para ver, por fin, los ejes girar.
+
+Empezaremos a presentar las varillas de 8mm y los rodamientos LM8UU para entender cómo será el movimiento físico del CoreXY.
