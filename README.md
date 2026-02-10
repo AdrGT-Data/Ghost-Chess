@@ -75,3 +75,21 @@ Durante la implementación del sistema de agarre, se realizaron pruebas de estr�
 **Solución Prevista**: Implementación de una fuente de alimentación dedicada de 24V y optimización de la base de las piezas para maximizar el flujo magnético.
 
 (Imagenes del circuito en la carpeta `docs`)
+
+## FASE 2.5: Arquitectura CNC y Gestión Profesional (uv)
+
+En esta etapa se ha realizado un "refactor" completo del sistema para pasar de un script de simulación a un software de control de maquinaria industrial (CNC).
+
+### Hitos Técnicos:
+* **Gestión con `uv`:** Migración del entorno a **uv**, garantizando una gestión de dependencias 100x más rápida y un entorno determinista mediante `pyproject.toml` y `uv.lock`.
+* **Arquitectura Modular:** Separación de responsabilidades en tres núcleos:
+    * `chess_engine.py`: Motor lógico y cálculo de trayectorias.
+    * `communication.py`: Protocolo de comunicación Serial y sincronización de estados (Handshake OK).
+    * `main.py`: Orquestador de la aplicación.
+* **Protocolo G-Code:** Implementación del estándar industrial para el control de movimiento. El sistema ahora genera instrucciones `G0` (tránsito rápido) y `G1` (movimiento de carga) que cualquier controlador CNC podría interpretar.
+* **Lógica de Captura Inteligente:** Desarrollo de una coreografía de movimiento para capturas. El sistema detecta si la casilla destino está ocupada y genera automáticamente una fase de "desahucio", retirando la pieza capturada al cementerio antes de realizar el movimiento principal.
+
+### Estado del Software:
+- [x] Migración a entorno `uv`.
+- [x] Generador de G-Code para movimientos rectos y por costuras.
+- [x] Protocolo de comunicación Serial con espera de confirmación.
