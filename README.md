@@ -25,7 +25,7 @@ La **idea principal** del proyecto es crear un tablero físico que mueva las pie
 - [x] Fase 0: Familiarización con librería `chess y lógica de IA (StockFish).
 - [x] Fase 1: Simulación de partidas y tranformación de movimientos a coordenadas del tablero. 
 - [x] Fase 2: Integración Hardware.
-- [ ] Fase 3: Control de Precisión (Motores paso a paso).
+- [x] Fase 3: Control de Precisión (Motores paso a paso).
 - [ ] Fase 4: Montaje Mecánico CoreXY.
 - [ ] Fase 5: Integración del ElectroImán.
 - [ ] Fase 6: Capa de Datos y Telemetría.
@@ -94,14 +94,30 @@ En esta etapa se ha realizado un "refactor" completo del sistema para pasar de u
 - [x] Generador de G-Code para movimientos rectos y por costuras.
 - [x] Protocolo de comunicación Serial con espera de confirmación.
 
+
+## FASE 3 - Control de Precisión (Motores Nema17 paso a paso)
+
+Hemos finalizado la integración del sistema nervioso del proyecto. Los motores responden correctamente a las órdenes de movimiento.
+
+### Hitos Logrados:
+
+- **Firmware:** Instalación y configuración de GRBL v1.1h.
+- **Hardware:** Montaje de Arduino R3 + CNC Shield V3 + Drivers A4988.
+- **Calibración:** Ajuste de voltaje de referencia a 0.6V para motores NEMA17.
+- **Entorno:** Configuración de comunicación serial estable en Zorin OS (Linux).
+
+
+### Especificaciones Técnicas
+
+- **Motores:** 2x NEMA17.
+- **Alimentación:** Pack 18650 (~15V) para motores y elevador de tensión XL6019 para electroimán (24V).
+- **Software de control:** Universal Gcode Sender (UGS) y scripts personalizados en Python.
 ------------------------------------------------------------
 ¿Qué vamos a hacer en la próxima sesión?
-La próxima sesión será el "Día de la Integración Eléctrica". El objetivo será montar el "sistema nervioso" del tablero:
 
-Pincharemos el Arduino Nano en la CNC Shield (si es compatible) o haremos el cableado.
+Ya tenemos todas las partes del proyecto, solo falta unirlas, si quieres verlo, estate pendiente a las siguientes publicaciones.
 
-Conectaremos los NEMA17 a los drivers (espero que vinieran con la shield).
-
-Cargaremos un código de prueba para ver, por fin, los ejes girar.
-
-Empezaremos a presentar las varillas de 8mm y los rodamientos LM8UU para entender cómo será el movimiento físico del CoreXY.
+1. Montaje de la estructura mecánica CoreXY (perfiles 2020).
+2. Instalación y tensado de correas GT2.
+3. Pruebas de precisión y calibración de pasos por milímetro ($steps/mm$).
+4. Integración del electroimán de 24V.
