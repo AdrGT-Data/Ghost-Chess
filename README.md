@@ -95,7 +95,7 @@ En esta etapa se ha realizado un "refactor" completo del sistema para pasar de u
 - [x] Protocolo de comunicación Serial con espera de confirmación.
 
 
-## FASE 3 - Control de Precisión (Motores Nema17 paso a paso)
+## FASE 3: Control de Precisión (Motores Nema17 paso a paso)
 
 Hemos finalizado la integración del sistema nervioso del proyecto. Los motores responden correctamente a las órdenes de movimiento.
 
@@ -112,10 +112,14 @@ Hemos finalizado la integración del sistema nervioso del proyecto. Los motores 
 - **Motores:** 2x NEMA17.
 - **Alimentación:** Pack 18650 (~15V) para motores y elevador de tensión XL6019 para electroimán (24V).
 - **Software de control:** Universal Gcode Sender (UGS) y scripts personalizados en Python.
-------------------------------------------------------------
-¿Qué vamos a hacer en la próxima sesión?
 
-Ya tenemos todas las partes del proyecto, solo falta unirlas, si quieres verlo, estate pendiente a las siguientes publicaciones.
+## FASE 4: Montaje Mecánico del CoreXY
+
+Esta es la fase más tediosa de todas. Montaremos la estructura completa, usando como modelos los GIFs de la carpeta "docs". 
+
+¿Qué vamos a hacer en esta sesión?
+
+Ya tenemos todas las partes del proyecto, solo falta unirlas.
 
 1. Montaje de la estructura mecánica CoreXY (perfiles 2020).
 2. Instalación y tensado de correas GT2.
