@@ -2,7 +2,7 @@ import serial
 import time
 
 class SerialComunicator:
-    def __init__(self, port='/dev/ttyACM0', baudrate=9600, timeout = 1):
+    def __init__(self, port='/dev/ttyUSB0', baudrate=9600, timeout = 1):
         """Inicializa la conexión serie con Arduino"""
         self.port = port
         self.baudrate = baudrate
@@ -18,7 +18,7 @@ class SerialComunicator:
             print(f"Error al conectar al puerto serie: {e}")
 
     def send_gcode(self, gcode_list):
-        """Encía una lista de comandos y espera el ok de Arduino"""
+        """Envía una lista de comandos y espera el ok de Arduino"""
         if not self.connection:
             print("No hay conexión, abortando...")
             return

@@ -1,6 +1,9 @@
-# ♟️ Ghost Chess: Data-Driven Hardware Project
+# Ghost Chess: Data-Driven Hardware Project
 
-Proyecto autodidacta que integra ingeniería de hardware, inteligencia artificial y análisis de datos.
+![python](https://img.shields.io/badge/Language-python/C++-blue.svg)
+![Domain](https://img.shields.io/badge/DOmain-Hardware/IA/Mecanica-green.svg)
+
+Proyecto autodidacta que integra ingeniería de hardware, inteligencia artificial, análisis de datos y mecánica.
 
 ## Objetivos y descripción del proyecto:
 
@@ -8,9 +11,9 @@ La **idea principal** del proyecto es crear un tablero físico que mueva las pie
 
 ## Stack Tecnológico
 - **SO:** Linux (Ubuntu/Zorin)
-- **Lenguaje:** Python 3.12
+- **Lenguaje:** Python 3.12 - C++
 - **IA:** Stockfish Engine
-- **Hardware:** Arduino / ESP32 (CoreXY System)
+- **Hardware:** Arduino (CoreXY System)
 - **Data:** PostgreSQL / Docker / Streamlit
 
 ## Estructura de Directorios
@@ -125,3 +128,5 @@ Ya tenemos todas las partes del proyecto, solo falta unirlas.
 2. Instalación y tensado de correas GT2.
 3. Pruebas de precisión y calibración de pasos por milímetro ($steps/mm$).
 4. Integración del electroimán de 24V.
+
+### Creación de simulación de movimiento de imán al realizar los movimientos
