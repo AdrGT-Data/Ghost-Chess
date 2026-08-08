@@ -1,20 +1,30 @@
 # Ghost Chess: Data-Driven Hardware Project
 
 ![python](https://img.shields.io/badge/Language-python/C++-blue.svg)
-![Domain](https://img.shields.io/badge/DOmain-Hardware/IA/Mecanica-green.svg)
+![Domain](https://img.shields.io/badge/Domain-Hardware/IA/Mecanica-green.svg)
 
-Proyecto autodidacta que integra ingeniería de hardware, inteligencia artificial, análisis de datos y mecánica.
+> [!NOTE]
+> Esto es un proyecto autodidacta que integra ingeniería de hardware, inteligencia artificial, análisis de datos y mecánica. 
+> Se encuentra en desarrollo y es posible encontrar fallos tanto en código como en redacción o materiales.
 
 ## Objetivos y descripción del proyecto:
 
-La **idea principal** del proyecto es crear un tablero físico que mueva las piezas mediante un electroimán situado en la parte inferior movilizado con un sistema CoreXY (como el de las impresoras 3D). Este tablero analizará los movimientos del jugador contra la inteligencia artificial **StockFish**, una IA entrenada y especializada en ajedrez, y asesorará al jugador para mejorar.
+La **idea principal** del proyecto es crear un tablero físico de ajedrez que mueva las piezas mediante un electroimán situado en la parte inferior movilizado con un sistema CoreXY (como el de las impresoras 3D). Este tablero analizará los movimientos del jugador y responderá usando la inteligencia artificial **StockFish**, una IA entrenada y especializada en ajedrez. Además, como pasos a futuro, se guardarán los datos y jugadas de la partida con el fin de poder asesorar al jugador y ofrecer diversos servicios.
 
 ## Stack Tecnológico
 - **SO:** Linux (Ubuntu/Zorin)
 - **Lenguaje:** Python 3.12 - C++
 - **IA:** Stockfish Engine
 - **Hardware:** Arduino (CoreXY System)
-- **Data:** PostgreSQL / Docker / Streamlit
+- **Data: (Posibles cambios futuros)** PostgreSQL / Docker / Streamlit / Kafka / Spark Streaming
+
+<details>
+<summary>Stockfish</summary>
+
+Stockfish es un motor de ajedrez UCI (Interfaz de Ajedrez Universal) de código abierto para múltiples plataformas desarrollado por Tord Romstad, Joona Kiiski, Marco Costalba y Gary Linscott, con la colaboración de la comunidad de desarrolladores de código abierto.[1] Se publica bajo la licencia GPLv3. Desde el 31 de mayo de 2014 la versión 5 está disponible en C++ y también precompilada para Windows, Linux, Mac y Android. Además está disponible una aplicación especial para iOS que funciona en iPhone, iPod touch y iPad.
+
+Al igual que los motores mencionados, Stockfish soporta paralelismo y es compatible con sistemas operativos de 32 bits y 64 bits. También puede jugar el ajedrez aleatorio de Fischer.
+</details>
 
 ## Estructura de Directorios
 - `src/`: Lógica principal(python), hardware e IA.
