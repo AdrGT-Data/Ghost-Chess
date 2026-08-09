@@ -146,8 +146,10 @@ class GhostChessEngine:
         return f"{command} X{x:.2f} Y{y:.2f} F{speed}"
     
     def generate_graveyard_gcode(self, origin):
-        """Genera G-code para mover una pieza capturada al cementerio desde una posición uci origen."""
-        """origin es una tupla (x, y) en coordenadas del tablero."""
+        """
+        Genera G-code para mover una pieza capturada al cementerio desde una posición uci origen.
+        origin es una tupla (x, y) en coordenadas del tablero.
+        """
 
         target = (self.GRAVEYARD_X, self.GRAVEYARD_Y)
         instructions = []
@@ -173,7 +175,9 @@ class GhostChessEngine:
         return instructions
 
     def process_full_move (self, move):
-        """Coordina el movimiento completo"""
+        """
+        Coordina el movimiento completo
+        """
         instructions= []
         origin, target = self.translate_to_matrix(move)
 

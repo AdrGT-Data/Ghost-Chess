@@ -21,23 +21,24 @@ La **idea principal** del proyecto es crear un tablero físico de ajedrez que mu
 <details>
 <summary>Stockfish</summary>
 
-Stockfish es un motor de ajedrez UCI (Interfaz de Ajedrez Universal) de código abierto para múltiples plataformas desarrollado por Tord Romstad, Joona Kiiski, Marco Costalba y Gary Linscott, con la colaboración de la comunidad de desarrolladores de código abierto.[1] Se publica bajo la licencia GPLv3. Desde el 31 de mayo de 2014 la versión 5 está disponible en C++ y también precompilada para Windows, Linux, Mac y Android. Además está disponible una aplicación especial para iOS que funciona en iPhone, iPod touch y iPad.
+Stockfish es un motor de ajedrez UCI (Interfaz de Ajedrez Universal) de código abierto para múltiples plataformas desarrollado por Tord Romstad, Joona Kiiski, Marco Costalba y Gary Linscott, con la colaboración de la comunidad de desarrolladores de código abierto. Se publica bajo la licencia GPLv3. Desde el 31 de mayo de 2014 la versión 5 está disponible en C++ y también precompilada para Windows, Linux, Mac y Android. Además está disponible una aplicación especial para iOS que funciona en iPhone, iPod touch y iPad.
 
 Al igual que los motores mencionados, Stockfish soporta paralelismo y es compatible con sistemas operativos de 32 bits y 64 bits. También puede jugar el ajedrez aleatorio de Fischer.
 </details>
 
 ## Estructura de Directorios
-- `src/`: Lógica principal(python), hardware e IA.
+- `src/`: Lógica principal(python), hardware e IA y datos.
 - `notebooks/`: Prototipado y experimentación.
 - `data_raw/`: Logs de partidas y telemetría.
 - `test/`: Archivos de prueba y experimentación.
+- `Printables/`: Archivos `stl` para impresora 3D
 
 ## Estado del proyecto
 - [x] Configuración de entorno Linux y venv.
 - [x] Estructura de directorios.
 - [x] Fase 0: Familiarización con librería `chess y lógica de IA (StockFish).
 - [x] Fase 1: Simulación de partidas y tranformación de movimientos a coordenadas del tablero. 
-- [x] Fase 2: Integración Hardware.
+- [x] Fase 2: Integración Hardware a la lógica del tablero.
 - [x] Fase 3: Control de Precisión (Motores paso a paso).
 - [ ] Fase 4: Montaje Mecánico CoreXY.
 - [ ] Fase 5: Integración del ElectroImán.
@@ -45,12 +46,17 @@ Al igual que los motores mencionados, Stockfish soporta paralelismo y es compati
 
 ## FASE 1: Lógica de IA y Planificación de Movimientos
 
-En esta etapa se desarrolló el "cerebro" del sistema, permitiendo que la lógica del juego se traduzca en coordenadas físicas precisas para el futuro sistema mecánico.
+En esta etapa se desarrolla el "cerebro" del sistema, permitiendo que la lógica del juego se traduzca en coordenadas físicas precisas para el futuro sistema mecánico.
+
+### Requerimientos:
+- Python 3.12 o superior
+- Archivo `chess_engine.py`
 
 ### Hitos Técnicos:
 * **Integración de Motor de IA:** Implementación de **Stockfish 16** mediante la librería `python-chess` para el análisis de posiciones y toma de decisiones en tiempo real.
 * **Sistema de Coordenadas Físicas:** Desarrollo de un traductor de notación algebraica (ej. `e2e4`) a milímetros reales. El sistema está optimizado para un tablero de **400x400 mm** con casillas de **50 mm**.
 * **Algoritmo de Evasión de Colisiones (Pathfinding):** Implementación de una lógica de rutas que evita el choque entre piezas físicas. El imán se desplaza por los "pasillos" divisorios de las casillas, garantizando la integridad del juego.
+* **Gestión del cementerio:** Implementación de un sistema que saca las piezas eliminadas del tablero.
 * **Optimización de Seguridad:** Se ha definido un margen de seguridad basado en el diámetro de las piezas (**24 mm**) frente al tamaño de la casilla (**50 mm**), minimizando errores por fricción o interferencia magnética.
 
 ### Resultados:
@@ -61,19 +67,24 @@ Una vez tenemos el código que nos da las coordenadas del tablero y los pasos pa
 
 Para lograr este hito he usado la comunicación bidireccional entre el sistema operativo Linux y el hardware de control mediante Python. En resumen, Arduino se queda continuamente esperando una señal concreta que python solo manda cuando el usuario se lo dice.
 
-### El Camino del Aprendizaje:
+### Requerimientos
+* `communication.py`
+* Linux instalado
+* Libreria `pyserial`
+* Arduino R3
+* Driver L298N
+* Diodo LED
+* Motores DC
+* Pilas y portapilas
+
+### Hitos Técnicos:
 
 1.  **Test del LED (Señalización):**
     * Objetivo: Validar el protocolo de comunicación Serial y los permisos de puerto en Linux.
-    * Resultado: Control de un diodo LED mediante envío de bytes (`1`/`0`) desde la terminal.
+    * Resultado: Control de un diodo LED mediante envío de bytes (`1`/`0`) desde el terminal.
 2.  **Control de Potencia (Tracción):** * Implementación de un puente en H **L298N** para gestionar la carga de motores DC.
     * Sincronización de tierras (GND) entre la fuente de potencia (pilas 18650) y la lógica de control (Arduino).
     * Resultado: Control direccional de motores desde Python.
-
-### Stack Tecnológico:
-* **Lenguaje:** Python (Comandante) & C++ (Arduino IDE).
-* **Comunicación:** Protocolo Serial a 9600 Baudios vía `pyserial`.
-* **Hardware:** Arduino R3, Driver L298N, Motores DC, diodo LED, portapilas(18650)
 
 Durante la implementación del sistema de agarre, se realizaron pruebas de estrés con el electroimán de 24V, obteniendo las siguientes conclusiones técnicas:
 
@@ -82,10 +93,10 @@ Durante la implementación del sistema de agarre, se realizaron pruebas de estr�
 2. **Transición al Driver L298N**: Se optó por sustituir el relé por un módulo **L298N**. Esta configuración permite que los diodos de protección internos del driver absorban los picos de tensión al conmutar la carga, garantizando la estabilidad del sistema lógico y permitiendo el control mediante comandos seriales (`1` / `0`).
    
 3. **Análisis de Eficiencia Energética**: Se detectó una deficiencia en la fuerza de atracción al alimentar el sistema con un pack de celdas Li-ion en serie (~14.8V - 16.8V).
-   - **Fundamento Físico**: Considerando que la potencia disipada es proporcional al cuadrado del voltaje ($P = V^2 / R$), el funcionamiento a ~15V implica que el dispositivo opera apenas al **36-40% de su capacidad**.
+   - **Fundamento Físico**: Considerando que la potencia disipada es proporcional al cuadrado del voltaje ($P = V^2 / R$), el funcionamiento a ~15V implica que el dispositivo opera apenas al **40% de su capacidad**.
    - **Resultado**: La densidad del campo magnético resultante es insuficiente para atravesar el tablero y desplazar las piezas con fiabilidad.
 
-**Solución Prevista**: Implementación de una fuente de alimentación dedicada de 24V y optimización de la base de las piezas para maximizar el flujo magnético.
+**Solución Prevista**: Usar un modulo elevador XL6019 que eleva la tensión y permite que imán funcione en su totalidad.
 
 (Imagenes del circuito en la carpeta `docs`)
 
@@ -100,7 +111,7 @@ En esta etapa se ha realizado un "refactor" completo del sistema para pasar de u
     * `communication.py`: Protocolo de comunicación Serial y sincronización de estados (Handshake OK).
     * `main.py`: Orquestador de la aplicación.
 * **Protocolo G-Code:** Implementación del estándar industrial para el control de movimiento. El sistema ahora genera instrucciones `G0` (tránsito rápido) y `G1` (movimiento de carga) que cualquier controlador CNC podría interpretar.
-* **Lógica de Captura Inteligente:** Desarrollo de una coreografía de movimiento para capturas. El sistema detecta si la casilla destino está ocupada y genera automáticamente una fase de "desahucio", retirando la pieza capturada al cementerio antes de realizar el movimiento principal.
+* **Lógica de Captura Inteligente:** Desarrollo de una coreografía de movimiento para capturas. El sistema detecta si la casilla destino está ocupada y genera automáticamente una fase de "eliminación", retirando la pieza capturada al cementerio antes de realizar el movimiento principal.
 
 ### Estado del Software:
 - [x] Migración a entorno `uv`.

@@ -10,6 +10,8 @@ Aquí se muestra el itinerario donde muestro todos los materiales que he ido usa
 - 4 Pilas 18650 de Litio de 3.7V y sus respectivos portapilas
 - Cable de cobre 
 - Resistencias de 220, 1k y 10k.
+- Diodos led para pruebas
+- Motores DC (Opcional)
 - Arduino UNO
 - Modulo L298N
 - Electroimán 24V de 2,5 cm de diámetro
