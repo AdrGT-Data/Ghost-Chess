@@ -61,6 +61,15 @@ En esta etapa se desarrolla el "cerebro" del sistema, permitiendo que la lógica
 
 ### Resultados:
 Se ha logrado simular partidas completas en el terminal donde el sistema no solo decide la mejor jugada, sino que genera una lista de puntos $(x, y)$ que el hardware deberá recorrer.
+
+## FASE 1.5: Creación de simulación de movimiento de imán al realizar los movimientos
+
+### Requerimientos 
+
+- Archivo `simulation.py`
+
+Para ayudar a la visualización de los movimientos del iman al mover las piezas he creado un script `simulation.py` que mediante una representación gráfica del tablero se puede ver que movimientos realiza el imán en cada turno. Esto permite comprobar que no haya colisiones y que todo funcione correctamente.
+
 ## FASE 2: Integración Hardware
 
 Una vez tenemos el código que nos da las coordenadas del tablero y los pasos para llegar a ellas, necesitamos una conexión que permita integrar la lógica de python con el hardware de Arduino.
@@ -108,28 +117,31 @@ En esta etapa se ha realizado un "refactor" completo del sistema para pasar de u
 * **Gestión con `uv`:** Migración del entorno a **uv**, garantizando una gestión de dependencias 100x más rápida y un entorno determinista mediante `pyproject.toml` y `uv.lock`.
 * **Arquitectura Modular:** Separación de responsabilidades en tres núcleos:
     * `chess_engine.py`: Motor lógico y cálculo de trayectorias.
-    * `communication.py`: Protocolo de comunicación Serial y sincronización de estados (Handshake OK).
+    * `communication.py`: Protocolo de comunicación Serial y sincronización de estados.
     * `main.py`: Orquestador de la aplicación.
 * **Protocolo G-Code:** Implementación del estándar industrial para el control de movimiento. El sistema ahora genera instrucciones `G0` (tránsito rápido) y `G1` (movimiento de carga) que cualquier controlador CNC podría interpretar.
 * **Lógica de Captura Inteligente:** Desarrollo de una coreografía de movimiento para capturas. El sistema detecta si la casilla destino está ocupada y genera automáticamente una fase de "eliminación", retirando la pieza capturada al cementerio antes de realizar el movimiento principal.
-
-### Estado del Software:
-- [x] Migración a entorno `uv`.
-- [x] Generador de G-Code para movimientos rectos y por costuras.
-- [x] Protocolo de comunicación Serial con espera de confirmación.
-
 
 ## FASE 3: Control de Precisión (Motores Nema17 paso a paso)
 
 Hemos finalizado la integración del sistema nervioso del proyecto. Los motores responden correctamente a las órdenes de movimiento.
 
+### Requerimientos
+
+- Arduino R3
+- CNC Shield
+- 2 Drivers
+- 2 Motores NEMA17
+- Elevador de tensión
+- Pilas y portapilas
+- Universal Gcode Sender(UGS instalado)
+- Electroimán
+
 ### Hitos Logrados:
 
 - **Firmware:** Instalación y configuración de GRBL v1.1h.
-- **Hardware:** Montaje de Arduino R3 + CNC Shield V3 + Drivers A4988.
 - **Calibración:** Ajuste de voltaje de referencia a 0.6V para motores NEMA17.
 - **Entorno:** Configuración de comunicación serial estable en Zorin OS (Linux).
-
 
 ### Especificaciones Técnicas
 
@@ -137,7 +149,7 @@ Hemos finalizado la integración del sistema nervioso del proyecto. Los motores 
 - **Alimentación:** Pack 18650 (~15V) para motores y elevador de tensión XL6019 para electroimán (24V).
 - **Software de control:** Universal Gcode Sender (UGS) y scripts personalizados en Python.
 
-## FASE 4: Montaje Mecánico del CoreXY
+## FASE 4: Montaje Mecánico del CoreXY(Pausada)
 
 Esta es la fase más tediosa de todas. Montaremos la estructura completa, usando como modelos los GIFs de la carpeta "docs". 
 
@@ -145,9 +157,24 @@ Esta es la fase más tediosa de todas. Montaremos la estructura completa, usando
 
 Ya tenemos todas las partes del proyecto, solo falta unirlas.
 
-1. Montaje de la estructura mecánica CoreXY (perfiles 2020).
+1. Montaje de la estructura mecánica CoreXY.
 2. Instalación y tensado de correas GT2.
 3. Pruebas de precisión y calibración de pasos por milímetro ($steps/mm$).
 4. Integración del electroimán de 24V.
 
-### Creación de simulación de movimiento de imán al realizar los movimientos
+## FASE 6: Capa de Datos y Telemetría (En proceso)
+
+>[!NOTE]
+> Debido a la falta de material físico requerido para el montaje del tablero, se ha postpuedo la fase 4 y 5 para cuando sea posible adquirir los materiales.
+
+En esta fase daremos rienda a nuestros conocimientos en bases de datos e IA y intentaremos proporcionar un análisis de las partidas y con ello poder recomendar al usuario mejoras y errores que mejorar.
+
+### Requerimientos
+
+- Archivo `database.py`
+
+### Hitos logrados
+
+- **Base de datos:** Se ha creado una base de datos en SQLite que se conecta con la partida ejecutada por `main.py` y que guarda los movimientos y el estado de las partidas.
+
+*Continuará*
