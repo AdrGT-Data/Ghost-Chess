@@ -21,44 +21,44 @@ def main():
 
     while not game.board.is_game_over():
 
+    
+        # 2. ----------------------JUGADA IA-------------------------
+
+        print(f"\n--- TURNO IA ---")
+
+        #Disparamos el cronómetro
+        inicio_calculo_ia = time.time()
+
+        best_move = game.get_best_move()
+
+        #Detenemos el cronómetro
+        fin_calculo_ia = time.time()
+        tiempo_calculo_ia_ms = (fin_calculo_ia - inicio_calculo_ia) * 1000  # Convertimos a milisegundos
+
+        processed_gcode = game.process_full_move(best_move)
+
+        game.play_move(best_move)
+
+        # 2.1 Simulación visual del movimiento de la IA
+        sim.simulate_gcode(processed_gcode)
+        sim.draw_pieces(game.board)  # Actualizamos la visualización del tablero después del movimiento de la IA
+
+        # 2.2 Registro de la jugada de la IA en la base de datos
+        distancia_gcode_mm_ia = db.calcular_distancia_gcode(processed_gcode)
+        db.registrar_turno(
+            id_partida=id_partida,
+            numero_turno=turnos,
+            jugador="IA_Blancas",
+            movimiento_uci=best_move.uci(), # Extraemos el texto
+            estado_fen=game.board.fen(),    # Extraemos la foto FEN actual
+            tiempo_calculo_ms=tiempo_calculo_ia_ms,          # Usamos el tiempo calculado
+            distancia_gcode_mm=distancia_gcode_mm_ia,      #Calculamos distancia recorrida por el imán en mm 
+            tiempo_iman_ms=db.calcular_tiempo_iman(distancia_gcode_mm_ia)              # Calculamos el tiempo que ha tardado el imán en recorrer la distancia
+        )
+        turnos += 1
+
+        # 3. ------------------------------JUGADA HUMANA------------------------------
         try:
-            # 2. ----------------------JUGADA IA-------------------------
-
-            print(f"\n--- TURNO IA ---")
-
-            #Disparamos el cronómetro
-            inicio_calculo_ia = time.time()
-
-            best_move = game.get_best_move()
-
-            #Detenemos el cronómetro
-            fin_calculo_ia = time.time()
-            tiempo_calculo_ia_ms = (fin_calculo_ia - inicio_calculo_ia) * 1000  # Convertimos a milisegundos
-
-            processed_gcode = game.process_full_move(best_move)
-
-            game.play_move(best_move)
-
-            # 2.1 Simulación visual del movimiento de la IA
-            sim.simulate_gcode(processed_gcode)
-            sim.draw_pieces(game.board)  # Actualizamos la visualización del tablero después del movimiento de la IA
-
-            # 2.2 Registro de la jugada de la IA en la base de datos
-            distancia_gcode_mm_ia = db.calcular_distancia_gcode(processed_gcode)
-            db.registrar_turno(
-                id_partida=id_partida,
-                numero_turno=turnos,
-                jugador="IA_Blancas",
-                movimiento_uci=best_move.uci(), # Extraemos el texto
-                estado_fen=game.board.fen(),    # Extraemos la foto FEN actual
-                tiempo_calculo_ms=tiempo_calculo_ia_ms,          # Usamos el tiempo calculado
-                distancia_gcode_mm=distancia_gcode_mm_ia,      #Calculamos distancia recorrida por el imán en mm 
-                tiempo_iman_ms=db.calcular_tiempo_iman(distancia_gcode_mm_ia)              # Calculamos el tiempo que ha tardado el imán en recorrer la distancia
-            )
-            turnos += 1
-
-            # 3. ------------------------------JUGADA HUMANA------------------------------
-
             # Disparamos cronómetro para medir el tiempo de entrada del jugador
             inicio_entrada_humana = time.time()
 

@@ -149,7 +149,7 @@ Hemos finalizado la integración del sistema nervioso del proyecto. Los motores 
 - **Alimentación:** Pack 18650 (~15V) para motores y elevador de tensión XL6019 para electroimán (24V).
 - **Software de control:** Universal Gcode Sender (UGS) y scripts personalizados en Python.
 
-## FASE 4: Montaje Mecánico del CoreXY(Pausada)
+## FASE 4: Montaje Mecánico del CoreXY (Pausada)
 
 Esta es la fase más tediosa de todas. Montaremos la estructura completa, usando como modelos los GIFs de la carpeta "docs". 
 
@@ -165,16 +165,17 @@ Ya tenemos todas las partes del proyecto, solo falta unirlas.
 ## FASE 6: Capa de Datos y Telemetría (En proceso)
 
 >[!NOTE]
-> Debido a la falta de material físico requerido para el montaje del tablero, se ha postpuedo la fase 4 y 5 para cuando sea posible adquirir los materiales.
+> Debido a la falta de material físico requerido para el montaje del tablero, se ha postpuesto la fase 4 y 5 para cuando sea posible adquirir los materiales.
 
 En esta fase daremos rienda a nuestros conocimientos en bases de datos e IA y intentaremos proporcionar un análisis de las partidas y con ello poder recomendar al usuario mejoras y errores que mejorar.
 
 ### Requerimientos
 
-- Archivo `database.py`
+- Archivos `database.py`, `data_generator.py` y `ETL.py`
 
 ### Hitos logrados
 
 - **Base de datos:** Se ha creado una base de datos en SQLite que se conecta con la partida ejecutada por `main.py` y que guarda los movimientos y el estado de las partidas.
+- **Análisis de las partidas:** Se han simulado partidas creadas con la IA mediante el archivo `data_generator.py`.
 
 *Continuará*
