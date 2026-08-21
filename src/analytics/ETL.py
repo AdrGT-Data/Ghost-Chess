@@ -11,12 +11,12 @@ def cargar_datos():
     conn = sqlite3.connect(db_path)
     
     # 2. Consultas SQL directas a Pandas DataFrames
-    df_partidas = pd.read_sql_query("SELECT * FROM Partidas", conn)
-    df_turnos = pd.read_sql_query("SELECT * FROM Telemetria_Turnos", conn)
+    df_partidas = pd.read_sql_query("SELECT * FROM PARTIDAS", conn)
+    df_turnos = pd.read_sql_query("SELECT * FROM TELEMETRIA_TURNOS", conn)
     
     conn.close()
     
-    # 3. Transformación: Unimos las tablas (Equivalente a un LEFT JOIN en SQL)
+    # 3. Transformación: Unimos las tablas
     # Así cada turno sabe a qué nivel de dificultad se jugó y cómo acabó la partida
     df_final = pd.merge(df_turnos, df_partidas, on="id_partida", how="left")
     
@@ -31,5 +31,5 @@ if __name__ == "__main__":
     # Un pequeño vistazo a los datos para confirmar que todo está en orden
     print("\nDesgaste mecánico total:")
     print(f"{df['distancia_gcode_mm'].sum() / 1000} m")
-    print("\nTiempo total de imán encendido(Riesgo térmico):")
+    print("\nTiempo total de imán encendido:")
     print(f"{(df['tiempo_iman_ms'].sum() / 1000) / 3600} h")

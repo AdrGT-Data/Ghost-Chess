@@ -177,5 +177,6 @@ En esta fase daremos rienda a nuestros conocimientos en bases de datos e IA y in
 
 - **Base de datos:** Se ha creado una base de datos en SQLite que se conecta con la partida ejecutada por `main.py` y que guarda los movimientos y el estado de las partidas.
 - **Análisis de las partidas:** Se han simulado partidas creadas con la IA mediante el archivo `data_generator.py`.
+- **Interfaz web Local:** Web local donde acceder a los datos de las partidas y poder reproducirlas.
 
 *Continuará*
