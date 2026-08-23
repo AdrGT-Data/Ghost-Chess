@@ -1,6 +1,10 @@
 import serial
 import time
 
+"""
+Este módulo contiene la clase SerialComunicator, que se encarga de gestionar la comunicación serie con un dispositivo Arduino para enviar comandos G-code y recibir confirmaciones.
+"""
+
 class SerialComunicator:
     def __init__(self, port='/dev/ttyUSB0', baudrate=9600, timeout = 1):
         """Inicializa la conexión serie con Arduino"""

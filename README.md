@@ -9,14 +9,16 @@
 
 ## Objetivos y descripción del proyecto:
 
-La **idea principal** del proyecto es crear un tablero físico de ajedrez que mueva las piezas mediante un electroimán situado en la parte inferior movilizado con un sistema CoreXY (como el de las impresoras 3D). Este tablero analizará los movimientos del jugador y responderá usando la inteligencia artificial **StockFish**, una IA entrenada y especializada en ajedrez. Además, como pasos a futuro, se guardarán los datos y jugadas de la partida con el fin de poder asesorar al jugador y ofrecer diversos servicios.
+La **idea principal** del proyecto es crear un tablero físico de ajedrez que mueva las piezas mediante un electroimán situado en la parte inferior movilizado con un sistema CoreXY (como el de las impresoras 3D). Este tablero analizará los movimientos del jugador y responderá usando la inteligencia artificial **StockFish**, una IA entrenada y especializada en ajedrez. 
+
+Además, como pasos a futuro, se guardarán los datos y jugadas de la partida con el fin de poder asesorar al jugador y ofrecer diversos servicios. Como último paso se realizará un modelo de predicción para prevenir el sobrecalentamiento térmico del imán.
 
 ## Stack Tecnológico
 - **SO:** Linux (Ubuntu/Zorin)
 - **Lenguaje:** Python 3.12 - C++
-- **IA:** Stockfish Engine
+- **IA:** Stockfish Engine + Modelo predicción de sobrecalentamiento térmico
 - **Hardware:** Arduino (CoreXY System)
-- **Data: (Posibles cambios futuros)** PostgreSQL / Docker / Streamlit / Kafka / Spark Streaming
+- **Data: (Posibles cambios futuros):** SQLite / Streamlit 
 
 <details>
 <summary>Stockfish</summary>
@@ -42,7 +44,8 @@ Al igual que los motores mencionados, Stockfish soporta paralelismo y es compati
 - [x] Fase 3: Control de Precisión (Motores paso a paso).
 - [ ] Fase 4: Montaje Mecánico CoreXY.
 - [ ] Fase 5: Integración del ElectroImán.
-- [ ] Fase 6: Capa de Datos y Telemetría.
+- [x] Fase 6: Capa de Datos y Telemetría.
+- [ ] Fase 7: Modelo de predicción de sobrecalentamiento térmico.
 
 ## FASE 1: Lógica de IA y Planificación de Movimientos
 
@@ -162,12 +165,12 @@ Ya tenemos todas las partes del proyecto, solo falta unirlas.
 3. Pruebas de precisión y calibración de pasos por milímetro ($steps/mm$).
 4. Integración del electroimán de 24V.
 
-## FASE 6: Capa de Datos y Telemetría (En proceso)
+## FASE 6: Capa de Datos y Telemetría
 
 >[!NOTE]
 > Debido a la falta de material físico requerido para el montaje del tablero, se ha postpuesto la fase 4 y 5 para cuando sea posible adquirir los materiales.
 
-En esta fase daremos rienda a nuestros conocimientos en bases de datos e IA y intentaremos proporcionar un análisis de las partidas y con ello poder recomendar al usuario mejoras y errores que mejorar.
+En esta fase daremos rienda a nuestros conocimientos en bases de datos e intentaremos proporcionar un análisis de las partidas y con ello poder recrear partidas y ver diferentes datos de las partidas.
 
 ### Requerimientos
 
@@ -178,5 +181,17 @@ En esta fase daremos rienda a nuestros conocimientos en bases de datos e IA y in
 - **Base de datos:** Se ha creado una base de datos en SQLite que se conecta con la partida ejecutada por `main.py` y que guarda los movimientos y el estado de las partidas.
 - **Análisis de las partidas:** Se han simulado partidas creadas con la IA mediante el archivo `data_generator.py`.
 - **Interfaz web Local:** Web local donde acceder a los datos de las partidas y poder reproducirlas.
+
+## Fase 7: Modelo de prevención térmico (En proceso)
+
+Como último paso nos centraremos en el mantenimiento a medio-largo plazo del mecanismo, centrandonos en el sobrecalentamiento del imán. Como no disponemos de un medidor de temperatura del imán, aproximaremos el indice de temperatura usando física y matemáticas. La idea es que un modelo ARIMA prediga la temperatura del imán en los próximos 3-5 turnos y lo apague o salte un aviso antes de llegar a una temperatura peligrosa.
+
+### Requerimientos
+
+- Archivo `database.py`
+
+### Hitos conseguidos
+
+- **Creacion de función térmica:** Se ha desarrollado una funcion que calcula el indice térmico en funcion de la temperatura anterior por fórmula física.
 
 *Continuará*

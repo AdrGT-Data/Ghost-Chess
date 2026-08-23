@@ -1,7 +1,10 @@
 from shutil import move
-
 import chess
 import chess.engine
+
+"""
+Este módulo contiene la clase GhostChessEngine, que encapsula la lógica del juego de ajedrez y la interacción con el motor Stockfish.
+"""
 
 class GhostChessEngine:
 

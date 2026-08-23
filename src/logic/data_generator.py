@@ -3,6 +3,12 @@ import chess
 from chess_engine import GhostChessEngine
 from database import DatabaseManager
 
+"""
+Este script simula partidas de ajedrez entre dos inteligencias artificiales (IA) y registra la telemetría de cada turno en una base de datos SQLite.
+Cada partida se juega hasta que haya jaque mate o tablas, y se almacena información detallada de cada turno, incluyendo el jugador, el movimiento realizado, el estado del tablero en formato FEN, el tiempo de cálculo de la IA, la distancia recorrida por el imán y el tiempo que el imán estuvo encendido.
+El objetivo es generar datos de telemetría que luego puedan ser analizados para estudiar el comportamiento
+"""
+
 def simular_partidas(num_partidas=5):
 
     # 1. Iniciamos el motor de ajedrez y la base de datos

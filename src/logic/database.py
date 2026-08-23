@@ -3,6 +3,13 @@ import os
 import time
 import math
 
+"""
+Este módulo contiene la clase DatabaseManager, que se encarga de gestionar la base de datos SQLite para almacenar la telemetría de las partidas de ajedrez simuladas.
+La base de datos contiene dos tablas principales:
+1. PARTIDAS: almacena información general de cada partida (fecha, dificultad, resultado).
+2. TELEMETRIA_TURNOS: almacena información detallada de cada turno (jugador, movimiento, estado del tablero, tiempo de cálculo, distancia recorrida por el imán, tiempo que el imán estuvo encendido).
+"""
+
 class DatabaseManager:
     def __init__(self, db_name="ghost_chess_telemetry.db"):
         """
@@ -24,7 +31,7 @@ class DatabaseManager:
 
     def _create_tables(self):
         """
-        Ejecuta el DDL para crear las tablas relacionales.
+        Crea las tablas relacionales.
         """
 
         # Entidad Partidas: almacena información general de cada partida
@@ -47,8 +54,9 @@ class DatabaseManager:
                 movimiento_uci TEXT,
                 estado_fen TEXT,
                 tiempo_calculo_ms REAL,
-                distancia_gcode_mm REAL,
+                distancia_mm REAL,
                 tiempo_iman_ms REAL,
+                indice_termico REAL,
                 FOREIGN KEY(id_partida) REFERENCES PARTIDAS(id_partida)
             )
         ''')
@@ -70,26 +78,25 @@ class DatabaseManager:
         self.cursor.execute(query, (dificultad_ia,))
         self.conn.commit()
         
-        # MAGIA SQL: Obtenemos el ID que SQLite acaba de autogenerar
+        # Obtenemos el ID que SQLite acaba de autogenerar y lo retornamos para usarlo en los turnos
         id_partida_actual = self.cursor.lastrowid
-        print(f"--- Telemetría: Iniciada Partida ID {id_partida_actual} ---")
         
         return id_partida_actual
 
     def registrar_turno(self, id_partida, numero_turno, jugador, movimiento_uci, 
-                        estado_fen, tiempo_calculo_ms, distancia_gcode_mm, tiempo_iman_ms):
+                        estado_fen, tiempo_calculo_ms, distancia_mm, tiempo_iman_ms, indice_termico):
         """
         Inserta un evento en Telemetria_Turnos vinculado a la partida actual.
         """
         query = '''
             INSERT INTO Telemetria_Turnos (
                 id_partida, numero_turno, jugador, movimiento_uci, 
-                estado_fen, tiempo_calculo_ms, distancia_gcode_mm, tiempo_iman_ms
+                estado_fen, tiempo_calculo_ms, distancia_mm, tiempo_iman_ms, indice_termico
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         '''
         valores = (id_partida, numero_turno, jugador, movimiento_uci, 
-                   estado_fen, tiempo_calculo_ms, distancia_gcode_mm, tiempo_iman_ms)
+                   estado_fen, tiempo_calculo_ms, distancia_mm, tiempo_iman_ms, indice_termico)
         
         self.cursor.execute(query, valores)
         self.conn.commit()
@@ -103,7 +110,7 @@ class DatabaseManager:
         last_x, last_y = None, None
 
         for instruction in gcode_list:
-            # Solo nos interesan las instrucciones de movimiento (G0 y G1)
+            # Solo nos interesan las instrucciones de movimiento lineal (G0 y G1)
             if instruction.startswith("G0") or instruction.startswith("G1"):
                 parts = instruction.split()
                 x, y = None, None
@@ -136,6 +143,52 @@ class DatabaseManager:
         
         tiempo_segundos = distancia_mm / velocidad_mm_s
         return tiempo_segundos * 1000  # Convertimos a milisegundos
+
+    def calcular_indice_termico(self, id_partida, numero_turno, temperatura_ambiente = 25, k_cool= 0.05, k_heat = 2.5):
+        """
+        Calcula un índice térmico simple basado en el tiempo que el imán estuvo encendido y el tiempo de cálculo de la IA.
+        Este índice es una métrica inventada para evaluar la "carga térmica" del sistema.
+        """
+
+        # Recuperamos los datos del turno desde la base de datos
+        tiempo_calculo_ms, tiempo_iman_ms = None, None
+        self.cursor.execute("""
+            SELECT tiempo_calculo_ms, tiempo_iman_ms 
+            FROM Telemetria_Turnos 
+            WHERE id_partida = ? AND numero_turno = ?
+        """, (id_partida, numero_turno))
+
+        actual_row = self.cursor.fetchone()
+
+        if actual_row:
+            tiempo_calculo_ms, tiempo_iman_ms = actual_row[0]/1000, actual_row[1]/1000
+        else:
+            raise ValueError(f"No se encontró el turno con id_partida = {id_partida} y numero_turno = {numero_turno}")
+
+        if tiempo_calculo_ms <= 0 or tiempo_iman_ms < 0:
+            raise ValueError("Valor temporal negativo")  
+
+
+        # Para calcular la temperatura del turno anterior debemos recuperar el turno anterior
+        temperatura_anterior = temperatura_ambiente  # Valor por defecto si no hay turno anterior
+        self.cursor.execute("""
+            SELECT indice_termico 
+            FROM Telemetria_Turnos 
+            WHERE id_partida = ? AND numero_turno = ?
+        """, (id_partida, numero_turno - 1))
+
+        previous_row = self.cursor.fetchone()
+        if previous_row:
+            temperatura_anterior = previous_row[0]
+
+
+        # 1. Si el imán esta apagado pierde calor por una fórmula simple
+        temperatura_apagado = temperatura_ambiente + (temperatura_anterior - temperatura_ambiente) * math.exp(-k_cool * tiempo_calculo_ms)
+
+        # 2. Si el imán esta encendido, sube la temperatura según el tiempo de cálculo de la IA
+        temperatura_encendido = temperatura_apagado + k_heat * tiempo_iman_ms
+
+        return temperatura_encendido
 
     def close(self):
         self.conn.close()

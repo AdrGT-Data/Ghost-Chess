@@ -2,6 +2,10 @@ import sqlite3
 import pandas as pd
 import os
 
+"""
+Este módulo contiene funciones para extraer y transformar los datos de telemetría almacenados en la base de datos SQLite.
+"""
+
 def cargar_datos():
     # Extracción de datos desde la base de datos SQLite a un DataFrame de Pandas para análisis posterior.
     # Aseguramos la ruta correcta al archivo .db

@@ -21,7 +21,6 @@ def main():
 
     while not game.board.is_game_over():
 
-    
         # 2. ----------------------JUGADA IA-------------------------
 
         print(f"\n--- TURNO IA ---")

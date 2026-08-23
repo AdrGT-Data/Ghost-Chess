@@ -7,6 +7,10 @@ import os
 import chess
 import chess.svg
 
+"""
+Este script crea una interfaz web interactiva usando Streamlit para visualizar la telemetría mecánica
+"""
+
 # Configuración de la página web
 st.set_page_config(page_title="Ghost Chess | Telemetría", layout="wide")
 st.title("Ghost Chess - Telemetría Mecánica")

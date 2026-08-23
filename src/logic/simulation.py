@@ -1,6 +1,9 @@
 import turtle
 import chess
-
+"""
+Script que contiene la clase MagnetSimulator, que se encarga de simular gráficamente el movimiento del imán y la disposición de las piezas en un tablero de ajedrez.
+El tablero se dibuja en una ventana de Turtle, y el imán se representa como un punto que se mueve según las instrucciones G-code. Las piezas se representan con letras en las casillas correspondientes, y se puede resaltar la última jugada realizada.
+"""
 class MagnetSimulator:
     def __init__(self, board_size_mm=400, square_size_mm=50):
         self.screen = turtle.Screen()
