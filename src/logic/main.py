@@ -50,9 +50,10 @@ def main():
             jugador="IA_Blancas",
             movimiento_uci=best_move.uci(), # Extraemos el texto
             estado_fen=game.board.fen(),    # Extraemos la foto FEN actual
-            tiempo_calculo_ms=tiempo_calculo_ia_ms,          # Usamos el tiempo calculado
-            distancia_gcode_mm=distancia_gcode_mm_ia,      #Calculamos distancia recorrida por el imán en mm 
-            tiempo_iman_ms=db.calcular_tiempo_iman(distancia_gcode_mm_ia)              # Calculamos el tiempo que ha tardado el imán en recorrer la distancia
+            tiempo_calculo_ms=tiempo_calculo_ia_ms,# Usamos el tiempo calculado
+            distancia_mm=distancia_gcode_mm_ia,      #Calculamos distancia recorrida por el imán en mm 
+            tiempo_iman_ms=db.calcular_tiempo_iman(distancia_gcode_mm_ia), # Calculamos el tiempo que ha tardado el imán en recorrer la distancia
+            indice_termico = db.calcular_indice_termico(id_partida, turnos)
         )
         turnos += 1
 
@@ -92,8 +93,9 @@ def main():
                     movimiento_uci=human_move.uci(), # Extraemos el texto
                     estado_fen=game.board.fen(),    # Extraemos la foto FEN actual
                     tiempo_calculo_ms=tiempo_entrada_humana_ms,          # Usamos el tiempo calculado
-                    distancia_gcode_mm=distancia_gcode_mm_humano,         # Ignorado por hoy
-                    tiempo_iman_ms=db.calcular_tiempo_iman(distancia_gcode_mm_humano)              # Ignorado por hoy
+                    distancia_mm=distancia_gcode_mm_humano,         # Ignorado por hoy
+                    tiempo_iman_ms=db.calcular_tiempo_iman(distancia_gcode_mm_humano),              # Ignorado por hoy
+                    indice_termico = db.calcular_indice_termico(id_partida, turnos)
                 )
                 turnos += 1
 

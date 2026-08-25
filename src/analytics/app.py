@@ -37,7 +37,7 @@ col1, col2, col3 = st.columns(3)
 col1.metric("Partidas Simuladas", df['id_partida'].nunique())
 col2.metric("Total Movimientos (Turnos)", len(df))
 # Convertimos los milímetros a metros para que sea más legible
-col3.metric("Desgaste de Correas (Metros)", round(df['distancia_gcode_mm'].sum() / 1000, 2))
+col3.metric("Desgaste de Correas (Metros)", round(df['distancia_mm'].sum() / 1000, 2))
 
 st.divider()
 
